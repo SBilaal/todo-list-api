@@ -1,7 +1,5 @@
 from fastapi import APIRouter, FastAPI, Request, Response, HTTPException, status, Query
 from typing import Annotated
-from pydantic import BaseModel
-from datetime import datetime
 import uuid
 
 from sqlmodel import select
