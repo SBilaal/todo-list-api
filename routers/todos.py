@@ -11,7 +11,7 @@ from db import SessionDep, Todo, create_db_and_tables, TodoCreate, TodoUpdate, T
 router = APIRouter(prefix="/todos", tags=["todos"])
 
 
-@router.post("/todos", response_model=TodoResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=TodoResponse, status_code=status.HTTP_201_CREATED)
 def create_todo(todo: TodoCreate, session: SessionDep):
     todo = Todo(
         title=todo.title,
@@ -24,7 +24,7 @@ def create_todo(todo: TodoCreate, session: SessionDep):
     return todo
 
 
-@router.get("/todos", response_model=list[TodoResponse])
+@router.get("", response_model=list[TodoResponse])
 def get_todos(
     session: SessionDep,
     is_done: bool | None = None,
@@ -40,7 +40,7 @@ def get_todos(
     return todos
 
 
-@router.get("/todos/{id}", response_model=TodoResponse)
+@router.get("/{id}", response_model=TodoResponse)
 def get_todo(session: SessionDep, id: uuid.UUID):
     todo = session.get(Todo, id)
     if not todo:
@@ -48,7 +48,7 @@ def get_todo(session: SessionDep, id: uuid.UUID):
     return todo
 
 
-@router.put("/todos/{id}", response_model=TodoResponse)
+@router.put("/{id}", response_model=TodoResponse)
 def replace_todo(id: uuid.UUID, todo: TodoCreate, session: SessionDep):
     todo_item = session.get(Todo, id)
 
@@ -61,7 +61,7 @@ def replace_todo(id: uuid.UUID, todo: TodoCreate, session: SessionDep):
     session.refresh(todo_item)
     return todo_item
 
-@router.patch("/todos/{id}", response_model=TodoResponse)
+@router.patch("/{id}", response_model=TodoResponse)
 def update_todo(id: uuid.UUID, todo: TodoUpdate, session: SessionDep):
     todo_item = session.get(Todo, id)
     if not todo_item:
@@ -75,7 +75,7 @@ def update_todo(id: uuid.UUID, todo: TodoUpdate, session: SessionDep):
     
 
 
-@router.delete("/todos/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_todo(session: SessionDep, id: uuid.UUID):
     todo = session.get(Todo, id)
     if not todo:
