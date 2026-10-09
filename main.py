@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from sqlmodel import select
 
 from db import create_db_and_tables
-from routers import todos, user
+from routers import auth, todos
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(todos.router, prefix="/todos", tags=["todos"])
-app.include_router(user.router, prefix="/auth", tags=["auth"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 
 
